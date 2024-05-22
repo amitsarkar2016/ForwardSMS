@@ -6,10 +6,6 @@ import android.content.Context
 import android.content.Intent
 import android.widget.Toast
 
-/**
- * @Author: Amit Sarkar
- * @Date: 16-05-2024
- */
 class SmsDeliveredReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
         if (intent?.action == "SMS_DELIVERED") {

@@ -8,106 +8,67 @@ import android.content.Intent
 import android.content.pm.PackageManager
 import android.telephony.SmsManager
 import android.telephony.SmsMessage
+import android.telephony.SubscriptionManager
 import android.widget.Toast
-import androidx.core.content.ContextCompat
-import java.util.regex.Pattern
+import androidx.core.app.ActivityCompat
 
-/**
- * @Author: Amit Sarkar
- * @Date: 24-01-2024
- */
 class SmsReceiver : BroadcastReceiver() {
-
-    private lateinit var permissionCallback: (Boolean) -> Unit
-    fun setPermissionCallback(callback: (Boolean) -> Unit) {
-        this.permissionCallback = callback
-    }
-
-    private lateinit var otpCallback: (String) -> Unit
-
-    fun getOtpCallback(callback: (String) -> Unit) {
-        this.otpCallback = callback
-    }
-
     override fun onReceive(context: Context?, intent: Intent?) {
-//        if (ContextCompat.checkSelfPermission(
-//                context!!,
-//                Manifest.permission.RECEIVE_SMS
-//            ) == PackageManager.PERMISSION_GRANTED
-//        ) {
-//            // Permission already granted, proceed with SMS handling
-//            handleSms(intent)
-//        } else {
-//            permissionCallback.invoke(false)
-//        }
-
         if (intent?.action == "android.provider.Telephony.SMS_RECEIVED") {
             val bundle = intent.extras
             if (bundle != null) {
-                val pdus = bundle["pdus"] as Array<*>
-                for (pdu in pdus) {
-                    val message = SmsMessage.createFromPdu(pdu as ByteArray)
-                    val smsBody = message.messageBody
-                    // Extract OTP from the SMS body and handle it
-                    val otp = extractOTPFromMessage(smsBody)
-                    if (otp != null) {
-                        Toast.makeText(context, otp, Toast.LENGTH_SHORT).show()
-                        // Prevent other BroadcastReceivers from processing this SMS
-                        abortBroadcast()
-                        // You may also unregister the receiver if needed
-                        // context.unregisterReceiver(this)
+                try {
+                    val pdus = bundle["pdus"] as Array<*>
+                    val messages = pdus.map { pdu ->
+                        SmsMessage.createFromPdu(pdu as ByteArray)
                     }
+
+                    for (message in messages) {
+                        val smsBody = message.messageBody
+                        val otp = extractOTPFromMessage(smsBody)
+                        if (otp != null) {
+                            val sharedPreferences = context!!.getSharedPreferences("sms_preferences", Context.MODE_PRIVATE)
+                            val destinationNumber = sharedPreferences.getString("destination_number", null)
+                            val subscriptionId = sharedPreferences.getInt("subscription_id", -1)
+
+                            if (destinationNumber != null && subscriptionId != -1) {
+                                forwardMessage(context, smsBody, destinationNumber, subscriptionId)
+                            }
+                            abortBroadcast()
+                        }
+                    }
+                } catch (e: Exception) {
+                    e.printStackTrace()
                 }
             }
         }
     }
 
     private fun extractOTPFromMessage(smsEvent: String): String? {
-        // Define a regular expression pattern for a 6-digit OTP
         val otpPattern = "\\b\\d{6}\\b".toRegex()
-
-        // Search for the OTP pattern in the SMS message
         val matchResult = otpPattern.find(smsEvent)
-
-        // Extract and return the OTP if found
         return matchResult?.value
     }
 
-    private fun forwardMessage(message: String, destinationNumber: String, context: Context) {
+    private fun forwardMessage(context: Context?, message: String, destinationNumber: String, subscriptionId: Int) {
         val sentIntent = PendingIntent.getBroadcast(context, 0, Intent("SMS_SENT"), PendingIntent.FLAG_IMMUTABLE)
         val deliveryIntent = PendingIntent.getBroadcast(context, 0, Intent("SMS_DELIVERED"), PendingIntent.FLAG_IMMUTABLE)
 
-        val smsManager = SmsManager.getDefault()
-        smsManager.sendTextMessage(
-            destinationNumber,
-            null,
-            message,
-            sentIntent,
-            deliveryIntent
-        )
-    }
+        val subscriptionManager = SubscriptionManager.from(context)
+        val subscriptionInfoList = if (ActivityCompat.checkSelfPermission(
+                context!!,
+                Manifest.permission.READ_PHONE_STATE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            return
+        } else subscriptionManager.activeSubscriptionInfoList
 
-    private fun handleSms(intent: Intent?) {
-        val bundle = intent?.extras
-        if (bundle != null) {
-            val pdus = bundle.get("pdus") as Array<*>
-            val messages = arrayOfNulls<SmsMessage>(pdus.size)
-            for (i in pdus.indices) {
-                messages[i] = SmsMessage.createFromPdu(pdus[i] as ByteArray)
-                val messageBody = messages[i]?.messageBody ?: ""
-                extractOtp(messageBody)
-            }
+        val smsManager: SmsManager = if (subscriptionInfoList.any { it.subscriptionId == subscriptionId }) {
+            SmsManager.getSmsManagerForSubscriptionId(subscriptionId)
+        } else {
+            SmsManager.getDefault()
         }
-    }
 
-    private fun extractOtp(messageBody: String) {
-        val otpPattern = Pattern.compile("\\b\\d{4}\\b")
-        val matcher = otpPattern.matcher(messageBody)
-        if (matcher.find()) {
-            val otp = matcher.group()
-            // Do something with the OTP (e.g., fill an OTP field)
-            otpCallback.invoke(otp)
-        }
+        smsManager.sendTextMessage(destinationNumber, null, message, sentIntent, deliveryIntent)
     }
-
 }
