@@ -2,10 +2,10 @@ package com.otpforward
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.os.Build
 import android.os.Bundle
-import android.telephony.SmsManager
 import android.telephony.SubscriptionInfo
 import android.telephony.SubscriptionManager
 import android.widget.AdapterView
@@ -14,13 +14,11 @@ import android.widget.Button
 import android.widget.EditText
 import android.widget.Spinner
 import android.widget.Toast
-import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import com.otpforward.services.MyForegroundService
 
 class MainActivity : AppCompatActivity() {
 
@@ -42,13 +40,7 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-//        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-//            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-//            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-//            insets
-//        }
 
         editTextDestinationNumber = findViewById(R.id.edit_text_destination_number)
         spinnerSimSelection = findViewById(R.id.spinner_sim_selection)
@@ -66,6 +58,19 @@ class MainActivity : AppCompatActivity() {
             requestPermissionsLauncher.launch(requestSmsReadPermission)
         }
 
+        val serviceIntent = Intent(this, MyForegroundService::class.java)
+        serviceIntent.action = "com.otpforward.action.MY_SERVICE_ACTION"
+
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                "com.otpforward.permission.MY_SERVICE_PERMISSION"
+            ) == PackageManager.PERMISSION_GRANTED
+        ) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                startForegroundService(serviceIntent)
+            }
+        }
+
         loadPreferences()
 
         buttonSendSms.setOnClickListener {
@@ -75,8 +80,14 @@ class MainActivity : AppCompatActivity() {
             if (selectedSimPosition != AdapterView.INVALID_POSITION && destinationNumber.isNotEmpty()) {
                 val subscriptionId = subscriptionInfoList[selectedSimPosition].subscriptionId
                 savePreferences(destinationNumber, subscriptionId)
+                Toast.makeText(this, "SMS sent using SIM $subscriptionId", Toast.LENGTH_SHORT)
+                    .show()
             } else {
-                Toast.makeText(this, "Please select a SIM card and enter a destination number", Toast.LENGTH_SHORT).show()
+                Toast.makeText(
+                    this,
+                    "Please select a SIM card and enter a destination number",
+                    Toast.LENGTH_SHORT
+                ).show()
             }
         }
     }
@@ -112,7 +123,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun setupSimSelection() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED) {
+        if (ActivityCompat.checkSelfPermission(
+                this,
+                Manifest.permission.READ_PHONE_STATE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
             return
         }
         subscriptionInfoList = subscriptionManager.activeSubscriptionInfoList
@@ -124,11 +139,12 @@ class MainActivity : AppCompatActivity() {
     }
 
     companion object {
-        private val requestSmsReadPermission = arrayOf(
+        private val requestSmsReadPermission = listOfNotNull(
             Manifest.permission.READ_SMS,
             Manifest.permission.RECEIVE_SMS,
             Manifest.permission.SEND_SMS,
-            Manifest.permission.READ_PHONE_STATE
-        )
+            Manifest.permission.READ_PHONE_STATE,
+//            if (Build.VERSION_CODES.TIRAMISU <= Build.VERSION.SDK_INT) Manifest.permission.POST_NOTIFICATIONS else null,
+        ).toTypedArray()
     }
 }

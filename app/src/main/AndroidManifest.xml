@@ -12,6 +12,19 @@
     <uses-permission android:name="android.permission.READ_SMS" />
     <uses-permission android:name="android.permission.SEND_SMS" />
 
+    <permission
+        android:name="com.otpforward.permission.MY_SERVICE_PERMISSION"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.otpforward.permission.MY_SERVICE_PERMISSION" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
+    <uses-permission android:name="android.permission.FOREGROUND_SERVICE_DATA_SYNC" />
+<!--    <uses-permission-->
+<!--        android:name="android.permission.BIND_NOTIFICATION_LISTENER_SERVICE"-->
+<!--        tools:ignore="ProtectedPermissions" />-->
+<!--    <uses-permission android:name="android.permission.ACCESS_NOTIFICATION_POLICY" />-->
+<!--    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />-->
+
     <application
         android:allowBackup="true"
         android:dataExtractionRules="@xml/data_extraction_rules"
@@ -35,14 +48,16 @@
         <receiver
             android:name=".broadcastReceiver.SmsReceiver"
             android:enabled="true"
-            android:exported="true">
+            android:exported="true"
+            android:permission="android.permission.BROADCAST_SMS">
             <intent-filter>
                 <action android:name="android.provider.Telephony.SMS_RECEIVED" />
             </intent-filter>
         </receiver>
         <receiver
             android:name=".broadcastReceiver.SmsBroadcastReceiver"
-            android:exported="true">
+            android:exported="true"
+            android:permission="android.permission.BROADCAST_SMS">
             <intent-filter>
                 <action android:name="com.google.android.gms.auth.api.phone.SMS_RETRIEVED" />
             </intent-filter>
@@ -50,7 +65,8 @@
         <receiver
             android:name=".broadcastReceiver.SmsSentReceiver"
             android:enabled="true"
-            android:exported="true">
+            android:exported="true"
+            android:permission="android.permission.BROADCAST_SMS">
             <intent-filter>
                 <action android:name="SMS_SENT" />
             </intent-filter>
@@ -59,11 +75,23 @@
         <receiver
             android:name=".broadcastReceiver.SmsDeliveredReceiver"
             android:enabled="true"
-            android:exported="true">
+            android:exported="true"
+            android:permission="android.permission.BROADCAST_SMS">
             <intent-filter>
                 <action android:name="SMS_DELIVERED" />
             </intent-filter>
         </receiver>
+
+        <service
+            android:name=".services.MyForegroundService"
+            android:enabled="true"
+            android:exported="true"
+            android:foregroundServiceType="dataSync"
+            android:permission="com.otpforward.permission.MY_SERVICE_PERMISSION">
+            <intent-filter>
+                <action android:name="com.otpforward.action.MY_SERVICE_ACTION" />
+            </intent-filter>
+        </service>
     </application>
 
 </manifest>
