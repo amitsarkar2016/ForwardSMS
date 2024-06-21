@@ -38,9 +38,7 @@
         <activity
             android:name=".ui.activity.SplashActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
-            android:exported="false"
-            android:label="@string/title_activity_splash"
-            android:theme="@style/Theme.OTPForward.Fullscreen" />
+            android:exported="true" />
         <activity
             android:name=".ui.activity.MainActivity"
             android:exported="true" >
