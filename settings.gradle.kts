@@ -19,6 +19,6 @@ dependencyResolutionManagement {
     }
 }
 
-rootProject.name = "OTPForward"
+rootProject.name = "ForwardSMS"
 include(":app")
  
