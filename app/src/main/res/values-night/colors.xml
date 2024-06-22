@@ -9,8 +9,8 @@
     <color name="black_overlay">#66000000</color>
     <color name="main_color">#01A59C</color>
     <color name="secondary_color">#0C6667</color>
-    <color name="bg_color">@color/secondary_color</color>
-
+    <color name="bg_color">#185561</color>
+    <color name="stroke_color">#707070</color>
 
     <color name="background_color">@color/bg_color</color>
     <color name="dialog_background_color">@color/bg_color</color>
