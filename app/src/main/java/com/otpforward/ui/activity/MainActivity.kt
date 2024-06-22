@@ -1,4 +1,4 @@
-package com.otpforward
+package com.otpforward.ui.activity
 
 import android.Manifest
 import android.content.Context
@@ -18,6 +18,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
+import com.otpforward.R
 import com.otpforward.services.MyForegroundService
 
 class MainActivity : AppCompatActivity() {
@@ -42,15 +43,8 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        editTextDestinationNumber = findViewById(R.id.edit_text_destination_number)
-        spinnerSimSelection = findViewById(R.id.spinner_sim_selection)
-        buttonSendSms = findViewById(R.id.button_send_sms)
-
-        subscriptionManager = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            getSystemService(SubscriptionManager::class.java)
-        } else {
-            getSystemService(TELEPHONY_SUBSCRIPTION_SERVICE) as SubscriptionManager
-        }
+        initializeViews()
+        initializeSubscriptionManager()
 
         if (allPermissionsGranted()) {
             setupSimSelection()
@@ -58,8 +52,39 @@ class MainActivity : AppCompatActivity() {
             requestPermissionsLauncher.launch(requestSmsReadPermission)
         }
 
-        val serviceIntent = Intent(this, MyForegroundService::class.java)
-        serviceIntent.action = "com.otpforward.action.MY_SERVICE_ACTION"
+        startForegroundServiceIfNeeded()
+
+        loadPreferences()
+
+        buttonSendSms.setOnClickListener {
+            handleSendSmsClick()
+        }
+    }
+
+    private fun restartService() {
+        val intent = Intent(this, MyForegroundService::class.java)
+        stopService(intent)
+        startService(intent)
+    }
+
+    private fun initializeViews() {
+        editTextDestinationNumber = findViewById(R.id.edit_text_destination_number)
+        spinnerSimSelection = findViewById(R.id.spinner_sim_selection)
+        buttonSendSms = findViewById(R.id.button_send_sms)
+    }
+
+    private fun initializeSubscriptionManager() {
+        subscriptionManager = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            getSystemService(SubscriptionManager::class.java)
+        } else {
+            getSystemService(TELEPHONY_SUBSCRIPTION_SERVICE) as SubscriptionManager
+        }
+    }
+
+    private fun startForegroundServiceIfNeeded() {
+        val serviceIntent = Intent(this, MyForegroundService::class.java).apply {
+            action = "com.otpforward.action.MY_SERVICE_ACTION"
+        }
 
         if (ActivityCompat.checkSelfPermission(
                 this,
@@ -68,27 +93,26 @@ class MainActivity : AppCompatActivity() {
         ) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 startForegroundService(serviceIntent)
+            } else {
+                startService(serviceIntent)
             }
         }
+    }
 
-        loadPreferences()
+    private fun handleSendSmsClick() {
+        val selectedSimPosition = spinnerSimSelection.selectedItemPosition
+        val destinationNumber = editTextDestinationNumber.text.toString()
 
-        buttonSendSms.setOnClickListener {
-            val selectedSimPosition = spinnerSimSelection.selectedItemPosition
-            val destinationNumber = editTextDestinationNumber.text.toString()
-
-            if (selectedSimPosition != AdapterView.INVALID_POSITION && destinationNumber.isNotEmpty()) {
-                val subscriptionId = subscriptionInfoList[selectedSimPosition].subscriptionId
-                savePreferences(destinationNumber, subscriptionId)
-                Toast.makeText(this, "SMS sent using SIM $subscriptionId", Toast.LENGTH_SHORT)
-                    .show()
-            } else {
-                Toast.makeText(
-                    this,
-                    "Please select a SIM card and enter a destination number",
-                    Toast.LENGTH_SHORT
-                ).show()
-            }
+        if (selectedSimPosition != AdapterView.INVALID_POSITION && destinationNumber.isNotEmpty()) {
+            val subscriptionId = subscriptionInfoList[selectedSimPosition].subscriptionId
+            savePreferences(destinationNumber, subscriptionId)
+            Toast.makeText(this, "SMS sent using SIM $subscriptionId", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText(
+                this,
+                "Please select a SIM card and enter a destination number",
+                Toast.LENGTH_SHORT
+            ).show()
         }
     }
 
@@ -144,7 +168,7 @@ class MainActivity : AppCompatActivity() {
             Manifest.permission.RECEIVE_SMS,
             Manifest.permission.SEND_SMS,
             Manifest.permission.READ_PHONE_STATE,
-//            if (Build.VERSION_CODES.TIRAMISU <= Build.VERSION.SDK_INT) Manifest.permission.POST_NOTIFICATIONS else null,
+            if (Build.VERSION_CODES.TIRAMISU <= Build.VERSION.SDK_INT) Manifest.permission.POST_NOTIFICATIONS else null
         ).toTypedArray()
     }
 }
