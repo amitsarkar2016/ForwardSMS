@@ -33,32 +33,41 @@
 
     </LinearLayout>
 
-    <fragment
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:padding="@dimen/_10sdp"
+        app:layout_constraintBottom_toBottomOf="@+id/mainContainer"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout">
+
+        <EditText
+            android:id="@+id/edit_text_destination_number"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Enter destination number"
+            android:inputType="phone"
+            app:layout_constraintTop_toBottomOf="@+id/spinner_sim_selection" />
+
+        <Spinner
+            android:id="@+id/spinner_sim_selection"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
+
+        <Button
+            android:id="@+id/button_send_sms"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Send SMS"
+            app:layout_constraintTop_toBottomOf="@+id/edit_text_destination_number"
+            tools:layout_editor_absoluteX="0dp" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <FrameLayout
+        android:id="@+id/mainContainer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
 
-
-    <EditText
-        android:id="@+id/edit_text_destination_number"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:hint="Enter destination number"
-        android:inputType="phone"
-        app:layout_constraintTop_toBottomOf="@+id/spinner_sim_selection" />
-
-    <Spinner
-        android:id="@+id/spinner_sim_selection"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/linearLayout" />
-
-    <Button
-        android:id="@+id/button_send_sms"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Send SMS"
-        app:layout_constraintTop_toBottomOf="@+id/edit_text_destination_number"
-        tools:layout_editor_absoluteX="0dp" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -15,4 +15,5 @@
     <color name="background_color">@color/bg_color</color>
     <color name="dialog_background_color">@color/bg_color</color>
     <color name="stroke_color">#707070</color>
+    <color name="item_text_color">#303030</color>
 </resources>

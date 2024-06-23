@@ -7,8 +7,11 @@
     tools:context=".ui.fragment.HomeFragment">
 
     <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        tools:listitem="@layout/itm_home" />
 
     <TextView
         android:id="@+id/noDataFound"
@@ -23,6 +26,7 @@
 
 
     <TextView
+        android:id="@+id/startBtn"
         android:layout_width="@dimen/_45sdp"
         android:layout_height="@dimen/_45sdp"
         android:layout_margin="@dimen/_10sdp"

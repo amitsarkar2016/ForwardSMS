@@ -20,6 +20,8 @@ import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import com.otpforward.R
 import com.otpforward.services.MyForegroundService
+import com.otpforward.ui.extention.replaceFragmentIfNeeded
+import com.otpforward.ui.fragment.HomeFragment
 
 class MainActivity : AppCompatActivity() {
 
@@ -59,6 +61,9 @@ class MainActivity : AppCompatActivity() {
         buttonSendSms.setOnClickListener {
             handleSendSmsClick()
         }
+
+        val fragment = HomeFragment()
+        replaceFragmentIfNeeded(fragment,R.id.mainContainer)
     }
 
     private fun restartService() {
