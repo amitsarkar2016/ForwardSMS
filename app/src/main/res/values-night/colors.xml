@@ -2,6 +2,7 @@
 <resources>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="red">#FF0000</color>
     <color name="light_blue_600">#FF039BE5</color>
     <color name="light_blue_900">#FF01579B</color>
     <color name="light_blue_A200">#FF40C4FF</color>
@@ -11,7 +12,10 @@
     <color name="secondary_color">#0C6667</color>
     <color name="bg_color">#185561</color>
     <color name="stroke_color">#707070</color>
+    <color name="red_white">@color/white</color>
 
     <color name="background_color">@color/bg_color</color>
     <color name="dialog_background_color">@color/bg_color</color>
+    <color name="dialog_heading_color">#F4D6B0</color>
+    <color name="edit_text_bg_color">#132F34</color>
 </resources>

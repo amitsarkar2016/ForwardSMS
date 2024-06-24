@@ -3,6 +3,9 @@
     <style name="Base.Theme.OTPForward" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">@color/main_color</item>
         <item name="android:statusBarColor">@color/main_color</item>
+        <item name="android:letterSpacing">0.09</item>
+        <item name="android:lineSpacingExtra">@dimen/_3sdp</item>
+        <item name="editTextBackground">@drawable/bg_edit_text</item>
     </style>
 
     <style name="Theme.OTPForward" parent="Base.Theme.OTPForward" />
