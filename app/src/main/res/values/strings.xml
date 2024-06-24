@@ -3,4 +3,17 @@
     <string name="title_activity_splash">SplashActivity</string>
     <string name="dummy_button">Dummy Button</string>
     <string name="dummy_content">DUMMY\nCONTENT</string>
+    <string name="select_sim">Select SIM</string>
+    <string name="sim_1">SIM 1</string>
+    <string name="forward_to">Forward To</string>
+    <string name="_9876543210">9876543210</string>
+    <string name="sample_sms">Sample SMS</string>
+    <string name="_961128_is_otp_for_txn_of_inr_9999_00_at_amazon_on_icici_bank_credit_card_xx5009_otps_are_secret_do_not_disclose_it_to_anyone_bank_never_asks_for_otp">961128 is OTP for txn of INR 9999.00 at AMAZON on ICICI Bank Credit Card XX5009. OTPs are SECRET. DO NOT disclose it to anyone. Bank NEVER asks for OTP.</string>
+    <string name="add">ADD</string>
+    <string name="enter_destination_number">Enter destination number</string>
+    <string name="send_sms">Send SMS</string>
+    <string name="home">Home</string>
+    <string name="add_rule_button">Add Rule Button</string>
+    <string name="no_data_found">No Data Found</string>
+    <string name="start">Start</string>
 </resources>

@@ -20,7 +20,7 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Home"
+            android:text="@string/home"
             android:textColor="@color/white"
             android:textSize="@dimen/_14ssp" />
 
@@ -29,6 +29,7 @@
             android:layout_width="@dimen/_24sdp"
             android:layout_height="@dimen/_24sdp"
             android:padding="@dimen/_2sdp"
+            android:contentDescription="@string/add_rule_button"
             android:src="@drawable/ic_add" />
 
     </LinearLayout>
@@ -40,14 +41,14 @@
         app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout"
-        tools:listitem="@layout/itm_home" />
+        tools:listitem="@layout/item_home" />
 
     <TextView
         android:id="@+id/noDataFound"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="center"
-        android:text="No Data Found"
+        android:text="@string/no_data_found"
         android:textColor="@color/main_color"
         android:textSize="@dimen/_14ssp"
         android:visibility="gone"
@@ -62,7 +63,7 @@
         android:background="@drawable/ic_start_button_bg"
         android:elevation="@dimen/_10sdp"
         android:gravity="center"
-        android:text="Start"
+        android:text="@string/start"
         android:textAllCaps="true"
         android:textColor="@color/white"
         android:textSize="@dimen/_10ssp"

@@ -17,7 +17,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/_16sdp"
-        android:text="Select SIM"
+        android:text="@string/select_sim"
         android:textColor="@color/dialog_heading_color"
         android:textSize="@dimen/_14ssp" />
 
@@ -28,7 +28,7 @@
         android:layout_marginHorizontal="@dimen/_16sdp"
         android:layout_marginTop="@dimen/_8sdp"
         android:background="@drawable/bg_edit_text"
-        android:hint="SIM 1"
+        android:hint="@string/sim_1"
         android:paddingHorizontal="@dimen/_16sdp"
         android:paddingVertical="@dimen/_10sdp"
         android:textSize="@dimen/_14ssp" />
@@ -38,7 +38,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/_16sdp"
         android:layout_marginTop="@dimen/_12sdp"
-        android:text="Forward To"
+        android:text="@string/forward_to"
         android:textColor="@color/dialog_heading_color"
         android:textSize="@dimen/_14ssp" />
 
@@ -49,7 +49,7 @@
         android:layout_marginHorizontal="@dimen/_16sdp"
         android:layout_marginTop="@dimen/_8sdp"
         android:background="@drawable/bg_edit_text"
-        android:hint="9876543210"
+        android:hint="@string/_9876543210"
         android:inputType="number"
         android:maxLength="10"
         android:paddingHorizontal="@dimen/_16sdp"
@@ -61,7 +61,7 @@
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="@dimen/_16sdp"
         android:layout_marginTop="@dimen/_12sdp"
-        android:text="Sample SMS"
+        android:text="@string/sample_sms"
         android:textColor="@color/dialog_heading_color"
         android:textSize="@dimen/_14ssp" />
 
@@ -73,7 +73,7 @@
         android:layout_marginTop="@dimen/_8sdp"
         android:background="@drawable/bg_edit_text"
         android:gravity="start"
-        android:hint="961128 is OTP for txn of INR 9999.00 at AMAZON on ICICI Bank Credit Card XX5009. OTPs are SECRET. DO NOT disclose it to anyone. Bank NEVER asks for OTP."
+        android:hint="@string/_961128_is_otp_for_txn_of_inr_9999_00_at_amazon_on_icici_bank_credit_card_xx5009_otps_are_secret_do_not_disclose_it_to_anyone_bank_never_asks_for_otp"
         android:paddingHorizontal="@dimen/_16sdp"
         android:paddingVertical="@dimen/_10sdp"
         android:textSize="@dimen/_14ssp" />
@@ -88,7 +88,7 @@
         android:background="@drawable/bg_button"
         android:gravity="center"
         android:paddingVertical="@dimen/_10sdp"
-        android:text="ADD"
+        android:text="@string/add"
         android:textColor="@color/white"
         android:textSize="@dimen/_14ssp" />
 

@@ -20,4 +20,5 @@
     <color name="item_text_color">#303030</color>
     <color name="dialog_heading_color">@color/black</color>
     <color name="edit_text_bg_color">@color/white</color>
+    <color name="item_rule_color">#303030</color>
 </resources>

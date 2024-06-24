@@ -18,7 +18,7 @@
             android:id="@+id/edit_text_destination_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Enter destination number"
+            android:hint="@string/enter_destination_number"
             android:inputType="phone"
             app:layout_constraintTop_toBottomOf="@+id/spinner_sim_selection" />
 
@@ -33,7 +33,7 @@
             android:id="@+id/button_send_sms"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Send SMS"
+            android:text="@string/send_sms"
             app:layout_constraintTop_toBottomOf="@+id/edit_text_destination_number"
             tools:layout_editor_absoluteX="0dp" />
     </androidx.constraintlayout.widget.ConstraintLayout>

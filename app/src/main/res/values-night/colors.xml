@@ -15,6 +15,7 @@
     <color name="red_white">@color/white</color>
 
     <color name="background_color">@color/bg_color</color>
+    <color name="item_text_color">#C2C2C2</color>
     <color name="dialog_background_color">@color/bg_color</color>
     <color name="dialog_heading_color">#F4D6B0</color>
     <color name="edit_text_bg_color">#132F34</color>
