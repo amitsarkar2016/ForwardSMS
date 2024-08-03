@@ -10,6 +10,8 @@ import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
 import com.otpforward.databinding.ActivitySplashBinding
+import com.otpforward.ui.extention.hideSystemUI
+import com.otpforward.utils.SharePrefManager
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.seconds
@@ -37,16 +39,25 @@ class SplashActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivitySplashBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        hideUI(binding.root)
+        hideSystemUI()
 
         lifecycleScope.launch {
             delay(2.seconds)
-            startActivity(
-                Intent(
-                    this@SplashActivity,
-                    MainActivity::class.java
+            if (SharePrefManager.getPrefInstance(this@SplashActivity).getBoolean("isOnBoardingDone")) {
+                startActivity(
+                    Intent(
+                        this@SplashActivity,
+                        MainActivity::class.java
+                    )
                 )
-            )
+            } else {
+                startActivity(
+                    Intent(
+                        this@SplashActivity,
+                        OnBoardingActivity::class.java
+                    )
+                )
+            }
             finishAffinity()
         }
     }

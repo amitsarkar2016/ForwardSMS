@@ -12,6 +12,7 @@
     <color name="secondary_color">#0C6667</color>
     <color name="bg_color">@color/white</color>
     <color name="red_white">@color/red</color>
+    <color name="white_red">@color/white</color>
 
 
     <color name="background_color">@color/bg_color</color>

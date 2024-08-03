@@ -16,4 +16,13 @@
     <string name="add_rule_button">Add Rule Button</string>
     <string name="no_data_found">No Data Found</string>
     <string name="start">Start</string>
+    <string name="match_contain">Match Contain</string>
+    <string name="update">Update</string>
+
+    <string name="are_you_sure">Are you sure?</string>
+    <string name="do_you_really_want_to_delete_these_record_this_process_cannot_be_undone">Do you really want to delete these record? This process cannot be undone.</string>
+    <string name="cancel">Cancel</string>
+    <string name="delete">Delete</string>
+    <string name="match_contain_hint">Please add the text that should be included in the SMS you want to forward. (Example: OTP is)</string>
+    <string name="card_otp_hint">Please add the last four digits of the card that you want to forward. (Example: xx4567)</string>
 </resources>

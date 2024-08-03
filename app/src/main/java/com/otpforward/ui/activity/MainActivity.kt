@@ -8,6 +8,7 @@ import android.os.Build
 import android.os.Bundle
 import android.telephony.SubscriptionInfo
 import android.telephony.SubscriptionManager
+import android.telephony.TelephonyManager
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.Button
@@ -22,7 +23,9 @@ import com.otpforward.R
 import com.otpforward.services.MyForegroundService
 import com.otpforward.ui.extention.replaceFragmentIfNeeded
 import com.otpforward.ui.fragment.HomeFragment
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
 
     private lateinit var editTextDestinationNumber: EditText
@@ -63,7 +66,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         val fragment = HomeFragment()
-        replaceFragmentIfNeeded(fragment,R.id.mainContainer)
+        replaceFragmentIfNeeded(fragment, R.id.mainContainer)
     }
 
     private fun restartService() {
@@ -167,12 +170,22 @@ class MainActivity : AppCompatActivity() {
         spinnerSimSelection.adapter = adapter
     }
 
+    override fun onResume() {
+        super.onResume()
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_SMS) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_NUMBERS) == PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) == PackageManager.PERMISSION_GRANTED) {
+            val telephonyManager = getSystemService(TELEPHONY_SERVICE) as TelephonyManager
+            telephonyManager.line1Number
+        }
+    }
+
     companion object {
         private val requestSmsReadPermission = listOfNotNull(
             Manifest.permission.READ_SMS,
             Manifest.permission.RECEIVE_SMS,
             Manifest.permission.SEND_SMS,
             Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.READ_CONTACTS,
+            if (Build.VERSION_CODES.O <= Build.VERSION.SDK_INT) Manifest.permission.READ_PHONE_NUMBERS else null,
             if (Build.VERSION_CODES.TIRAMISU <= Build.VERSION.SDK_INT) Manifest.permission.POST_NOTIFICATIONS else null
         ).toTypedArray()
     }

@@ -27,16 +27,12 @@ import javax.net.ssl.SSLSocketFactory
 import javax.net.ssl.TrustManager
 import javax.net.ssl.X509TrustManager
 
+// RetrofitHelper.kt
 object RetrofitHelper {
-
-    fun getInstance(context: Context): Retrofit {
-        val tokens = SharePrefManager.getPrefInstance(context).getString(Constant.KEY_TOKEN).toString()
-        Log.e("tokens", tokens)
-
+    fun getInstance(tokens: String, context: Context): Retrofit {
         val httpLoggingInterceptor =
             HttpLoggingInterceptor()
                 .setLevel(HttpLoggingInterceptor.Level.BODY)
-                .setLevel(HttpLoggingInterceptor.Level.HEADERS)
 
         val httpClient = getUnsafeOkHttpClient()
             .cache(Cache(context.applicationContext.cacheDir, 100 * 1024 * 1024))
@@ -50,6 +46,7 @@ object RetrofitHelper {
             val requestBuilder = originalRequest.newBuilder()
                 .header("Accept", "application/json")
                 .header("Content-Type", "application/x-www-form-urlencoded")
+                .header("Content-Type", "application/json")
                 .header("token", tokens)
                 .header("jwt_token", tokens)
 
@@ -58,30 +55,7 @@ object RetrofitHelper {
             try {
                 return@addInterceptor chain.proceed(request)
             } catch (exception: Exception) {
-                when (exception) {
-                    is SocketTimeoutException -> {
-                        Log.e("NetworkInterceptor", "SocketTimeoutException: ${exception.message}")
-                    }
-
-                    is SocketException -> {
-                        Log.e("NetworkInterceptor", "SocketException: ${exception.message}")
-                    }
-
-                    is IOException -> {
-                        Log.e("NetworkInterceptor", "IOException: ${exception.message}")
-                    }
-
-                    else -> {
-                        Log.e("NetworkInterceptor", "Exception: ${exception.message}")
-                    }
-                }
-                val customError = BaseResponse<String>(false, exception.message ?: "Unknown error")
-                val customContent = Gson().toJson(customError)
-
-                return@addInterceptor Response.Builder().request(originalRequest)
-                    .protocol(Protocol.HTTP_1_1).code(200).message("").body(
-                        customContent.toResponseBody("application/json".toMediaTypeOrNull())
-                    ).build()
+                handleException(exception, originalRequest)
             }
         }
 
@@ -92,24 +66,26 @@ object RetrofitHelper {
             .build()
     }
 
+    private fun handleException(exception: Exception, originalRequest: okhttp3.Request): Response {
+        val customError = BaseResponse<String>(false, exception.message ?: "Unknown error")
+        val customContent = Gson().toJson(customError)
+
+        return Response.Builder().request(originalRequest)
+            .protocol(Protocol.HTTP_1_1).code(200).message("").body(
+                customContent.toResponseBody("application/json".toMediaTypeOrNull())
+            ).build()
+    }
+
     private fun getUnsafeOkHttpClient(): OkHttpClient.Builder {
         return try {
             val trustAllCerts = arrayOf<TrustManager>(
                 @SuppressLint("CustomX509TrustManager")
                 object : X509TrustManager {
                     @SuppressLint("TrustAllX509TrustManager")
-                    override fun checkClientTrusted(
-                        chain: Array<X509Certificate>,
-                        authType: String,
-                    ) {
-                    }
+                    override fun checkClientTrusted(chain: Array<X509Certificate>, authType: String) {}
 
                     @SuppressLint("TrustAllX509TrustManager")
-                    override fun checkServerTrusted(
-                        chain: Array<X509Certificate>,
-                        authType: String,
-                    ) {
-                    }
+                    override fun checkServerTrusted(chain: Array<X509Certificate>, authType: String) {}
 
                     override fun getAcceptedIssuers(): Array<X509Certificate> = arrayOf()
                 }

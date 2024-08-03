@@ -13,6 +13,7 @@
     <color name="bg_color">#185561</color>
     <color name="stroke_color">#707070</color>
     <color name="red_white">@color/white</color>
+    <color name="white_red">@color/red</color>
 
     <color name="background_color">@color/bg_color</color>
     <color name="item_text_color">#C2C2C2</color>
