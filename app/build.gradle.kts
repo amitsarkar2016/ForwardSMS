@@ -9,7 +9,7 @@ plugins {
 
     alias(libs.plugins.kotlinAndroidKsp)
     alias(libs.plugins.hiltAndroid)
-    id("kotlin-kapt")
+//    id("kotlin-kapt")
 }
 
 android {
@@ -26,15 +26,35 @@ android {
         testInstrumentationRunner = "androidx.test.runner.AndroidJUnitRunner"
     }
 
+    signingConfigs {
+        create("release") {
+            val keystorePathVal = project.findProperty("UPLOAD_KEYSTORE_PATH") as String? ?: return@create
+            val storePasswordVal = project.findProperty("KEYSTORE_PASSWORD") as String? ?: ""
+            val keyAliasVal = project.findProperty("KEY_ALIAS") as String? ?: ""
+            val keyPasswordVal = project.findProperty("KEY_PASSWORD") as String? ?: ""
+
+            storeFile = file(keystorePathVal)
+            storePassword = storePasswordVal
+            keyAlias = keyAliasVal
+            keyPassword = keyPasswordVal
+
+            enableV1Signing = true
+            enableV2Signing = true
+        }
+    }
+
     buildTypes {
         release {
+            signingConfig = signingConfigs.getByName("release")
             isMinifyEnabled = false
+            isShrinkResources = false
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
         }
         debug {
+            isMinifyEnabled = false
             android.applicationVariants.all {
                 outputs.all {
                     val date = Date()
@@ -54,6 +74,12 @@ android {
     buildFeatures {
         viewBinding = true
     }
+
+    lint {
+        checkReleaseBuilds = false
+        abortOnError = false
+    }
+
 }
 
 dependencies {
@@ -91,10 +117,14 @@ dependencies {
     implementation(libs.androidx.lifecycle.viewmodel.ktx)
 
     //room database
-    implementation("androidx.room:room-ktx:2.6.1")
-    kapt("androidx.room:room-compiler:2.6.1")
+    implementation(libs.androidx.room.ktx)
+    ksp(libs.androidx.room.compiler)
 
     //Recyclerview swipe decoration
-    implementation("it.xabaras.android:recyclerview-swipedecorator:1.4")
+    implementation(libs.recyclerview.swipedecorator)
+
+    // Worker
+    implementation(libs.androidx.work.runtime.ktx)
+
 
 }

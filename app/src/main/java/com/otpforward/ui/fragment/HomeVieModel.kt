@@ -77,20 +77,17 @@ class HomeVieModel @Inject constructor(
     fun saveUserSettings(userSettings: UserSettings) {
         viewModelScope.launch {
             userSettingsRepository.saveUserSettings(userSettings)
-            userSettingsRepository.getUserSettings()
         }
     }
 
     fun updateUserSettings(userSettings: UserSettings) {
         viewModelScope.launch {
             userSettingsRepository.updateUserSettings(userSettings)
-            userSettingsRepository.getUserSettings()
         }
     }
     fun deleteUserSettings(id: Int) {
         viewModelScope.launch {
             userSettingsRepository.deleteUserSettings(id)
-            userSettingsRepository.getUserSettings()
         }
     }
 

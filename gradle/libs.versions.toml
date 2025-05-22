@@ -14,7 +14,9 @@ playServicesAuthApiPhone = "18.0.2"
 hiltVersion = "2.48.1"
 kspVersion = "1.9.21-1.0.15"
 converterGson = "2.11.0"
+recyclerviewSwipedecorator = "1.4"
 retrofit = "2.11.0"
+roomKtx = "2.6.1"
 sdpAndroid = "1.1.0"
 sspAndroid = "1.1.0"
 loggingInterceptor = "5.0.0-alpha.2"
@@ -22,8 +24,12 @@ gson = "2.10.1"
 adapterRxjava2 = "2.9.0"
 fragmentKtx = "1.7.1"
 lifecycleViewmodelKtx = "2.8.1"
+workRuntimeKtx = "2.9.1"
 
 [libraries]
+androidx-room-compiler = { module = "androidx.room:room-compiler", version.ref = "roomKtx" }
+androidx-room-ktx = { module = "androidx.room:room-ktx", version.ref = "roomKtx" }
+androidx-work-runtime-ktx = { module = "androidx.work:work-runtime-ktx", version.ref = "workRuntimeKtx" }
 junit = { group = "junit", name = "junit", version.ref = "junit" }
 androidx-junit = { group = "androidx.test.ext", name = "junit", version.ref = "junitVersion" }
 androidx-espresso-core = { group = "androidx.test.espresso", name = "espresso-core", version.ref = "espressoCore" }
@@ -35,6 +41,7 @@ play-services-auth-api-phone = { group = "com.google.android.gms", name = "play-
 
 hilt-android = { group = "com.google.dagger", name = "hilt-android" , version.ref = "hiltVersion"}
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler" , version.ref = "hiltVersion"}
+recyclerview-swipedecorator = { module = "it.xabaras.android:recyclerview-swipedecorator", version.ref = "recyclerviewSwipedecorator" }
 retrofit = { module = "com.squareup.retrofit2:retrofit", version.ref = "retrofit" }
 retrofit2-converter-gson = { module = "com.squareup.retrofit2:converter-gson", version.ref = "converterGson" }
 sdp-android = { module = "com.intuit.sdp:sdp-android", version.ref = "sdpAndroid" }

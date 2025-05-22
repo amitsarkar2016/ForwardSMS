@@ -4,6 +4,10 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.util.Log
 import com.google.gson.Gson
+import com.google.gson.GsonBuilder
+import com.google.gson.JsonDeserializationContext
+import com.google.gson.JsonDeserializer
+import com.google.gson.JsonElement
 import com.otpforward.core.Constant
 import com.otpforward.data.model.BaseResponse
 import com.otpforward.data.remote.UrlHelper.BASE_URL
@@ -18,6 +22,7 @@ import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
+import java.lang.reflect.Type
 import java.net.SocketException
 import java.net.SocketTimeoutException
 import java.security.cert.X509Certificate
@@ -44,7 +49,7 @@ object RetrofitHelper {
         httpClient.addInterceptor { chain ->
             val originalRequest = chain.request()
             val requestBuilder = originalRequest.newBuilder()
-                .header("Accept", "application/json")
+//                .header("Accept", "application/json")
                 .header("Content-Type", "application/x-www-form-urlencoded")
                 .header("Content-Type", "application/json")
                 .header("token", tokens)
@@ -53,16 +58,36 @@ object RetrofitHelper {
             val request = requestBuilder.build()
 
             try {
-                return@addInterceptor chain.proceed(request)
+                // Proceed with the request
+                val response = chain.proceed(request)
+
+                // Read and handle the raw response body
+                val responseBody = response.body?.string()
+                if (responseBody != null && responseBody.startsWith("{")) {
+                    // If the response is valid JSON, rebuild it
+                    return@addInterceptor response.newBuilder()
+                        .body(responseBody.toResponseBody(response.body?.contentType()))
+                        .build()
+                } else {
+                    // Log and throw an exception for non-JSON responses
+                    Log.e("Interceptor", "Invalid response: $responseBody")
+                    throw IOException("Non-JSON response received")
+                }
             } catch (exception: Exception) {
-                handleException(exception, originalRequest)
+                // Log and handle the exception
+                exception.printStackTrace()
+                return@addInterceptor handleException(exception, originalRequest)
             }
         }
+
+        val gson: Gson = GsonBuilder()
+            .setLenient()
+            .create()
 
         return Retrofit.Builder()
             .baseUrl(BASE_URL)
             .client(httpClient.build())
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .build()
     }
 
@@ -101,6 +126,20 @@ object RetrofitHelper {
             builder
         } catch (e: Exception) {
             throw RuntimeException(e)
+        }
+    }
+}
+
+class StringOrObjectAdapter : JsonDeserializer<Any> {
+    override fun deserialize(
+        json: JsonElement,
+        typeOfT: Type,
+        context: JsonDeserializationContext
+    ): Any {
+        return if (json.isJsonObject) {
+            context.deserialize(json, typeOfT)
+        } else {
+            json.asString
         }
     }
 }

@@ -4,6 +4,7 @@ import android.app.AlertDialog
 import android.content.Context
 import android.view.LayoutInflater
 import com.otpforward.databinding.DialogDeleteConfirmationBinding
+import com.otpforward.services.MyForegroundService
 
 object GeneralFunctions {
 
@@ -31,5 +32,15 @@ object GeneralFunctions {
             dialog.dismiss()
         }
         dialog.show()
+    }
+
+    fun isServiceRunning(requireContext: Context, java: Class<MyForegroundService>): Boolean {
+        val manager = requireContext.getSystemService(Context.ACTIVITY_SERVICE) as android.app.ActivityManager
+        for (service in manager.getRunningServices(Int.MAX_VALUE)) {
+            if (java.name == service.service.className) {
+                return true
+            }
+        }
+        return false
     }
 }

@@ -16,7 +16,7 @@ class HomeAdapter(
     companion object {
         private val diffUtil = object : DiffUtil.ItemCallback<UserSettings>() {
             override fun areItemsTheSame(oldItem: UserSettings, newItem: UserSettings): Boolean {
-                return oldItem.data == newItem.data
+                return oldItem == newItem
             }
 
             override fun areContentsTheSame(oldItem: UserSettings, newItem: UserSettings): Boolean {

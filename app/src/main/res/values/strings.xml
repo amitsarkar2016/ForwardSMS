@@ -25,4 +25,12 @@
     <string name="delete">Delete</string>
     <string name="match_contain_hint">Please add the text that should be included in the SMS you want to forward. (Example: OTP is)</string>
     <string name="card_otp_hint">Please add the last four digits of the card that you want to forward. (Example: xx4567)</string>
+    <string name="stop">Stop</string>
+    <string name="enter_recipient">Enter Recipient Number</string>
+    <string name="enter_match_contain">Enter Match Contain</string>
+    <string name="enter_card_number">Enter Card Number</string>
+    <string name="enter_valid_recipient">Enter Valid Recipient Number</string>
+    <string name="enter_valid_match_contain">Enter Valid Match Contain</string>
+    <string name="enter_valid_card_number">Enter Valid Card Number</string>
+    <string name="no_rules">There is no Rule to Start</string>
 </resources>

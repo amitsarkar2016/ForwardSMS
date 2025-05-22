@@ -16,11 +16,11 @@ interface UserSettingsDao {
     @Query("SELECT * FROM user_settings")
     fun getUserSettings(): Flow<List<UserSettings>>
 
-    @Query("SELECT * FROM user_settings WHERE id = 0 LIMIT 1")
-    fun getUserSetting(): Flow<UserSettings?>
-
     @Update
     suspend fun updateUserSettings(userSettings: UserSettings): Int
+
+    @Query("UPDATE user_settings SET data = :data")
+    suspend fun updateUserSettings(data: String)
 
     @Query("DELETE FROM user_settings")
     suspend fun deleteAll()

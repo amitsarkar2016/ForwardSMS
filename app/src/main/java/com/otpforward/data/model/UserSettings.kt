@@ -13,5 +13,5 @@ data class UserSettings(
     val sendTo: String,
     val date: String,
     val isActive: Boolean = true,
-    val data: String? = null,
+    val data: String = "",
 )
