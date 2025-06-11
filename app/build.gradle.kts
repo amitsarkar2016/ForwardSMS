@@ -13,12 +13,12 @@ plugins {
 }
 
 android {
-    namespace = "com.otpforward"
+    namespace = "amitsarkar2016.forward.sms"
     compileSdk = 34
 
     defaultConfig {
-        applicationId = "com.otpforward"
-        minSdk = 22
+        applicationId = "amitsarkar2016.forward.sms"
+        minSdk = 23
         targetSdk = 34
         versionCode = 1
         versionName = "1.0"
@@ -125,6 +125,11 @@ dependencies {
 
     // Worker
     implementation(libs.androidx.work.runtime.ktx)
+
+    // Firebase
+    implementation(platform("com.google.firebase:firebase-bom:34.1.0"))
+    implementation("com.google.firebase:firebase-messaging-ktx:24.1.2")
+    implementation("com.google.firebase:firebase-messaging:25.0.0")
 
 
 }
