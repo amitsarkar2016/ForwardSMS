@@ -1,9 +1,9 @@
-package com.otpforward.data.remote
+package amitsarkar2016.forward.sms.data.remote
 
-import com.otpforward.data.model.BaseResponse
-import com.otpforward.data.model.Contact
-import com.otpforward.data.model.Login
-import com.otpforward.data.model.UpdateDetails
+import amitsarkar2016.forward.sms.data.model.BaseResponse
+import amitsarkar2016.forward.sms.data.model.Contact
+import amitsarkar2016.forward.sms.data.model.Login
+import amitsarkar2016.forward.sms.data.model.UpdateDetails
 import retrofit2.Response
 import retrofit2.http.Body
 import retrofit2.http.FieldMap
