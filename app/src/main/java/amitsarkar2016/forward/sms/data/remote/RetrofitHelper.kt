@@ -1,4 +1,4 @@
-package com.otpforward.data.remote
+package amitsarkar2016.forward.sms.data.remote
 
 import android.annotation.SuppressLint
 import android.content.Context
@@ -8,10 +8,8 @@ import com.google.gson.GsonBuilder
 import com.google.gson.JsonDeserializationContext
 import com.google.gson.JsonDeserializer
 import com.google.gson.JsonElement
-import com.otpforward.core.Constant
-import com.otpforward.data.model.BaseResponse
-import com.otpforward.data.remote.UrlHelper.BASE_URL
-import com.otpforward.utils.SharePrefManager
+import amitsarkar2016.forward.sms.data.model.BaseResponse
+import amitsarkar2016.forward.sms.data.remote.UrlHelper.BASE_URL
 import okhttp3.Cache
 import okhttp3.MediaType.Companion.toMediaTypeOrNull
 import okhttp3.OkHttpClient
@@ -23,8 +21,6 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import java.io.IOException
 import java.lang.reflect.Type
-import java.net.SocketException
-import java.net.SocketTimeoutException
 import java.security.cert.X509Certificate
 import java.util.concurrent.TimeUnit
 import javax.net.ssl.SSLContext

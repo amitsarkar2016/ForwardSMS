@@ -1,4 +1,4 @@
-package com.otpforward.utils
+package amitsarkar2016.forward.sms.utils
 
 import android.content.Context
 import android.content.Intent
@@ -8,8 +8,8 @@ import androidx.core.app.ActivityCompat
 import androidx.work.ExistingPeriodicWorkPolicy
 import androidx.work.PeriodicWorkRequestBuilder
 import androidx.work.WorkManager
-import com.otpforward.services.BackupWorker
-import com.otpforward.services.MyForegroundService
+import amitsarkar2016.forward.sms.services.BackupWorker
+import amitsarkar2016.forward.sms.services.MyForegroundService
 import java.util.Calendar
 import java.util.concurrent.TimeUnit
 
@@ -17,12 +17,12 @@ object ServiceUtils {
 
     fun startForegroundServiceIfNeeded(context: Context) {
         val serviceIntent = Intent(context, MyForegroundService::class.java).apply {
-            action = "com.otpforward.action.MY_SERVICE_ACTION"
+            action = "amitsarkar2016.forward.sms.action.MY_SERVICE_ACTION"
         }
 
         if (ActivityCompat.checkSelfPermission(
                 context,
-                "com.otpforward.permission.MY_SERVICE_PERMISSION"
+                "amitsarkar2016.forward.sms.permission.MY_SERVICE_PERMISSION"
             ) == PackageManager.PERMISSION_GRANTED
         ) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
