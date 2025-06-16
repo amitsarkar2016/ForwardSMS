@@ -1,4 +1,4 @@
-package com.otpforward.ui.fragment
+package amitsarkar2016.forward.sms.ui.fragment
 
 import android.Manifest
 import android.content.Intent
@@ -24,18 +24,18 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
-import com.otpforward.R
-import com.otpforward.data.model.UpdateDetails
-import com.otpforward.data.model.UserSettings
-import com.otpforward.databinding.DialogAddRuleBinding
-import com.otpforward.databinding.DialogAppUpdateBinding
-import com.otpforward.databinding.FragmentHomeBinding
-import com.otpforward.services.MyForegroundService
-import com.otpforward.ui.extention.showToast
-import com.otpforward.utils.GeneralFunctions
-import com.otpforward.utils.GeneralFunctions.getAppVersion
-import com.otpforward.utils.NetworkUtils
-import com.otpforward.utils.SwipeToDeleteCallback
+import amitsarkar2016.forward.sms.R
+import amitsarkar2016.forward.sms.data.model.UpdateDetails
+import amitsarkar2016.forward.sms.data.model.UserSettings
+import amitsarkar2016.forward.sms.databinding.DialogAddRuleBinding
+import amitsarkar2016.forward.sms.databinding.DialogAppUpdateBinding
+import amitsarkar2016.forward.sms.databinding.FragmentHomeBinding
+import amitsarkar2016.forward.sms.services.MyForegroundService
+import amitsarkar2016.forward.sms.ui.extention.showToast
+import amitsarkar2016.forward.sms.utils.GeneralFunctions
+import amitsarkar2016.forward.sms.utils.GeneralFunctions.getAppVersion
+import amitsarkar2016.forward.sms.utils.NetworkUtils
+import amitsarkar2016.forward.sms.utils.SwipeToDeleteCallback
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
