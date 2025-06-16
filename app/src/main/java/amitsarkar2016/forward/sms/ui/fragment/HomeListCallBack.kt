@@ -1,6 +1,6 @@
-package com.otpforward.ui.fragment
+package amitsarkar2016.forward.sms.ui.fragment
 
-import com.otpforward.data.model.UserSettings
+import amitsarkar2016.forward.sms.data.model.UserSettings
 
 interface HomeListCallBack {
     fun onItemClick(item: UserSettings)
