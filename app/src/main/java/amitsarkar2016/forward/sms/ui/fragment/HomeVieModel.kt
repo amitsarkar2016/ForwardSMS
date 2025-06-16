@@ -1,16 +1,16 @@
-package com.otpforward.ui.fragment
+package amitsarkar2016.forward.sms.ui.fragment
 
 import android.content.Context
 import android.database.Cursor
 import android.provider.ContactsContract
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.otpforward.data.model.BaseResponse
-import com.otpforward.data.model.Contact
-import com.otpforward.data.model.UpdateDetails
-import com.otpforward.data.model.UserSettings
-import com.otpforward.data.repository.UserRepository
-import com.otpforward.data.repository.UserSettingsRepository
+import amitsarkar2016.forward.sms.data.model.BaseResponse
+import amitsarkar2016.forward.sms.data.model.Contact
+import amitsarkar2016.forward.sms.data.model.UpdateDetails
+import amitsarkar2016.forward.sms.data.model.UserSettings
+import amitsarkar2016.forward.sms.data.repository.UserRepository
+import amitsarkar2016.forward.sms.data.repository.UserSettingsRepository
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.Dispatchers
