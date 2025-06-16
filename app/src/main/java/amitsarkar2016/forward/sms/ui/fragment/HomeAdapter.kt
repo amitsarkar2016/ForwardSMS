@@ -1,13 +1,13 @@
-package com.otpforward.ui.fragment
+package amitsarkar2016.forward.sms.ui.fragment
 
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.otpforward.data.model.UserSettings
-import com.otpforward.databinding.ItemHomeBinding
-import com.otpforward.utils.SwipeAdapter
+import amitsarkar2016.forward.sms.data.model.UserSettings
+import amitsarkar2016.forward.sms.databinding.ItemHomeBinding
+import amitsarkar2016.forward.sms.utils.SwipeAdapter
 
 class HomeAdapter(
     private val homeListCallBack: HomeListCallBack,
