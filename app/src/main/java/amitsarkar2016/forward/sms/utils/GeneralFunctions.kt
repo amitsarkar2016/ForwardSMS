@@ -1,10 +1,10 @@
-package com.otpforward.utils
+package amitsarkar2016.forward.sms.utils
 
 import android.app.AlertDialog
 import android.content.Context
 import android.view.LayoutInflater
-import com.otpforward.databinding.DialogDeleteConfirmationBinding
-import com.otpforward.services.MyForegroundService
+import amitsarkar2016.forward.sms.databinding.DialogDeleteConfirmationBinding
+import amitsarkar2016.forward.sms.services.MyForegroundService
 
 object GeneralFunctions {
 
