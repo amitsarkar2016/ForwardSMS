@@ -1,11 +1,11 @@
-package com.otpforward.ui.viewmodel
+package amitsarkar2016.forward.sms.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.otpforward.data.model.BaseResponse
+import amitsarkar2016.forward.sms.data.model.BaseResponse
 import dagger.hilt.android.lifecycle.HiltViewModel
-import com.otpforward.data.model.Login
-import com.otpforward.data.repository.UserRepository
+import amitsarkar2016.forward.sms.data.model.Login
+import amitsarkar2016.forward.sms.data.repository.UserRepository
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
