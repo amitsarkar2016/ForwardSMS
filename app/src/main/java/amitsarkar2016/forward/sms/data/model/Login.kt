@@ -1,4 +1,4 @@
-package com.otpforward.data.model
+package amitsarkar2016.forward.sms.data.model
 
 data class Login(
     val status: Boolean,
