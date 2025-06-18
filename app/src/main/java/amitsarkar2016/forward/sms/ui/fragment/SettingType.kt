@@ -1,4 +1,4 @@
-package com.otpforward.ui.fragment
+package amitsarkar2016.forward.sms.ui.fragment
 
 enum class SettingType(val value: String) {
     MATCH_CONTAIN("Match Contain"),
