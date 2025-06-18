@@ -1,4 +1,4 @@
-package com.otpforward.ui.activity
+package amitsarkar2016.forward.sms.ui.activity
 
 import android.annotation.SuppressLint
 import android.app.AlarmManager
@@ -7,11 +7,11 @@ import android.content.Context
 import android.content.Intent
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.otpforward.R
-import com.otpforward.services.MyForegroundService
-import com.otpforward.ui.extention.replaceFragment
-import com.otpforward.ui.fragment.HomeFragment
-import com.otpforward.utils.ServiceUtils
+import amitsarkar2016.forward.sms.R
+import amitsarkar2016.forward.sms.services.MyForegroundService
+import amitsarkar2016.forward.sms.ui.extention.replaceFragment
+import amitsarkar2016.forward.sms.ui.fragment.HomeFragment
+import amitsarkar2016.forward.sms.utils.ServiceUtils
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
