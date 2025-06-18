@@ -1,6 +1,5 @@
-package com.otpforward.services
+package amitsarkar2016.forward.sms.services
 
-import android.app.Notification
 import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -9,15 +8,15 @@ import android.content.Intent
 import android.os.Build
 import android.os.IBinder
 import androidx.core.app.NotificationCompat
-import com.otpforward.R
-import com.otpforward.ui.activity.MainActivity
+import amitsarkar2016.forward.sms.R
+import amitsarkar2016.forward.sms.ui.activity.MainActivity
 
 class MyForegroundService : Service() {
 
     companion object {
         const val MY_CHANNEL_ID = "MY_CHANNEL_ID"
         const val MY_CHANNEL_NAME = "OTP Forward"
-        const val RESTART_SERVICE_ACTION = "com.otpforward.action.RESTART_SERVICE"
+        const val RESTART_SERVICE_ACTION = "amitsarkar2016.forward.sms.action.RESTART_SERVICE"
     }
 
     override fun onBind(intent: Intent?): IBinder? {
