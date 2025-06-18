@@ -1,4 +1,4 @@
-package com.otpforward.ui.activity
+package amitsarkar2016.forward.sms.ui.activity
 
 import android.Manifest
 import android.annotation.SuppressLint
@@ -12,10 +12,10 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
-import com.otpforward.R
-import com.otpforward.databinding.ActivityOnBoardingBinding
-import com.otpforward.ui.extention.hideSystemUI
-import com.otpforward.utils.SharePrefManager
+import amitsarkar2016.forward.sms.R
+import amitsarkar2016.forward.sms.databinding.ActivityOnBoardingBinding
+import amitsarkar2016.forward.sms.ui.extention.hideSystemUI
+import amitsarkar2016.forward.sms.utils.SharePrefManager
 
 
 class OnBoardingActivity : AppCompatActivity() {
