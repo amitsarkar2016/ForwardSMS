@@ -1,4 +1,4 @@
-package com.otpforward.utils
+package amitsarkar2016.forward.sms.utils
 
 import android.content.Context
 import android.net.ConnectivityManager
