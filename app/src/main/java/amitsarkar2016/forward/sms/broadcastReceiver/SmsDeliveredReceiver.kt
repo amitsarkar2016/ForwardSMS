@@ -1,4 +1,4 @@
-package com.otpforward.broadcastReceiver
+package amitsarkar2016.forward.sms.broadcastReceiver
 
 import android.app.Activity
 import android.content.BroadcastReceiver
