@@ -1,4 +1,4 @@
-package com.otpforward.broadcastReceiver
+package amitsarkar2016.forward.sms.broadcastReceiver
 
 import android.Manifest
 import android.app.PendingIntent
@@ -11,9 +11,8 @@ import android.telephony.SmsMessage
 import android.telephony.SubscriptionManager
 import android.util.Log
 import androidx.core.app.ActivityCompat
-import com.otpforward.data.repository.UserSettingsRepository
-import com.otpforward.ui.fragment.SettingType
-import kotlinx.coroutines.CoroutineScope
+import amitsarkar2016.forward.sms.data.repository.UserSettingsRepository
+import amitsarkar2016.forward.sms.ui.fragment.SettingType
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
