@@ -1,16 +1,11 @@
-package com.otpforward.broadcastReceiver
+package amitsarkar2016.forward.sms.broadcastReceiver
 
 import android.app.AlertDialog
-import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
-import android.telephony.SmsManager
-import android.telephony.SmsMessage
 import android.util.Log
-import android.widget.Toast
 import com.google.android.gms.auth.api.phone.SmsRetriever
-import java.util.regex.Pattern
 
 class SmsBroadcastReceiver : BroadcastReceiver() {
     override fun onReceive(context: Context?, intent: Intent?) {
