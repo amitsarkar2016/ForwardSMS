@@ -1,8 +1,8 @@
-package com.otpforward.data.model
+package amitsarkar2016.forward.sms.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import com.otpforward.ui.fragment.SettingType
+import amitsarkar2016.forward.sms.ui.fragment.SettingType
 
 @Entity(tableName = "user_settings")
 data class UserSettings(
