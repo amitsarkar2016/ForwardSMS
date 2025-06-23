@@ -1,11 +1,11 @@
-package com.otpforward.data.local.dao
+package amitsarkar2016.forward.sms.data.local.dao
 
 import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import androidx.room.Update
-import com.otpforward.data.model.UserSettings
+import amitsarkar2016.forward.sms.data.model.UserSettings
 import kotlinx.coroutines.flow.Flow
 
 @Dao
