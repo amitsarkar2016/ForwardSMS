@@ -1,8 +1,8 @@
-package com.otpforward.ui.viewmodel
+package amitsarkar2016.forward.sms.ui.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.otpforward.data.repository.UserSettingsRepository
+import amitsarkar2016.forward.sms.data.repository.UserSettingsRepository
 
 class UserSettingsViewModelFactory(private val repository: UserSettingsRepository) : ViewModelProvider.Factory {
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
