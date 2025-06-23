@@ -1,9 +1,9 @@
-package com.otpforward.data.repository
+package amitsarkar2016.forward.sms.data.repository
 
 import android.content.Context
-import com.otpforward.data.local.dao.UserSettingsDao
-import com.otpforward.data.local.db.AppDatabase
-import com.otpforward.data.model.UserSettings
+import amitsarkar2016.forward.sms.data.local.dao.UserSettingsDao
+import amitsarkar2016.forward.sms.data.local.db.AppDatabase
+import amitsarkar2016.forward.sms.data.model.UserSettings
 import kotlinx.coroutines.flow.Flow
 import javax.inject.Inject
 
