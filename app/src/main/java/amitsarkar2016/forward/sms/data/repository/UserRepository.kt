@@ -1,12 +1,12 @@
-package com.otpforward.data.repository
+package amitsarkar2016.forward.sms.data.repository
 
-import com.otpforward.core.Constant.KEY_TOKEN
-import com.otpforward.data.model.BaseResponse
-import com.otpforward.data.model.Contact
-import com.otpforward.data.model.Login
-import com.otpforward.data.model.UpdateDetails
-import com.otpforward.data.remote.ApiService
-import com.otpforward.utils.SharePrefManager
+import amitsarkar2016.forward.sms.core.Constant.KEY_TOKEN
+import amitsarkar2016.forward.sms.data.model.BaseResponse
+import amitsarkar2016.forward.sms.data.model.Contact
+import amitsarkar2016.forward.sms.data.model.Login
+import amitsarkar2016.forward.sms.data.model.UpdateDetails
+import amitsarkar2016.forward.sms.data.remote.ApiService
+import amitsarkar2016.forward.sms.utils.SharePrefManager
 import java.util.ArrayList
 import javax.inject.Inject
 
