@@ -1,4 +1,4 @@
-package com.otpforward.ui.extention
+package amitsarkar2016.forward.sms.ui.extention
 
 import android.content.ClipData
 import android.content.ClipboardManager
