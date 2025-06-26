@@ -1,4 +1,4 @@
-package com.otpforward.ui.activity
+package amitsarkar2016.forward.sms.ui.activity
 
 import android.annotation.SuppressLint
 import android.content.Intent
@@ -9,9 +9,9 @@ import android.view.WindowInsets
 import android.widget.FrameLayout
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.lifecycleScope
-import com.otpforward.databinding.ActivitySplashBinding
-import com.otpforward.ui.extention.hideSystemUI
-import com.otpforward.utils.SharePrefManager
+import amitsarkar2016.forward.sms.databinding.ActivitySplashBinding
+import amitsarkar2016.forward.sms.ui.extention.hideSystemUI
+import amitsarkar2016.forward.sms.utils.SharePrefManager
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.seconds
