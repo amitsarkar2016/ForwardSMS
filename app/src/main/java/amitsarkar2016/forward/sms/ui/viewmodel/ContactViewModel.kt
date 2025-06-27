@@ -1,4 +1,4 @@
-package com.otpforward.ui.viewmodel
+package amitsarkar2016.forward.sms.ui.viewmodel
 
 import android.content.Context
 import android.database.Cursor
@@ -6,7 +6,7 @@ import android.provider.ContactsContract
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
-import com.otpforward.data.model.Contact
+import amitsarkar2016.forward.sms.data.model.Contact
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
 import javax.inject.Inject
