@@ -1,4 +1,4 @@
-package com.otpforward.services
+package amitsarkar2016.forward.sms.services
 
 import android.app.NotificationChannel
 import android.app.NotificationManager
@@ -6,12 +6,11 @@ import android.app.PendingIntent
 import android.content.Context
 import android.content.Intent
 import android.os.Build
-import android.util.Log
 import androidx.core.app.NotificationCompat
 import androidx.work.Worker
 import androidx.work.WorkerParameters
-import com.otpforward.ui.activity.MainActivity
-import com.otpforward.utils.ServiceUtils
+import amitsarkar2016.forward.sms.ui.activity.MainActivity
+import amitsarkar2016.forward.sms.utils.ServiceUtils
 
 class BackupWorker(appContext: Context, workerParams: WorkerParameters) : Worker(appContext, workerParams) {
 
