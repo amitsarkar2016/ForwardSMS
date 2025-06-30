@@ -1,4 +1,4 @@
-package com.otpforward.data.local.db
+package amitsarkar2016.forward.sms.data.local.db
 
 import android.content.Context
 import androidx.room.Database
@@ -6,8 +6,8 @@ import androidx.room.Room
 import androidx.room.RoomDatabase
 import androidx.room.migration.Migration
 import androidx.sqlite.db.SupportSQLiteDatabase
-import com.otpforward.data.local.dao.UserSettingsDao
-import com.otpforward.data.model.UserSettings
+import amitsarkar2016.forward.sms.data.local.dao.UserSettingsDao
+import amitsarkar2016.forward.sms.data.model.UserSettings
 
 @Database(entities = [UserSettings::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
