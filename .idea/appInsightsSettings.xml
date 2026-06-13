@@ -22,15 +22,29 @@
             </InsightsFilterSettings>
           </value>
         </entry>
+        <entry key="Android vitals">
+          <value>
+            <InsightsFilterSettings>
+              <option name="connection">
+                <ConnectionSetting>
+                  <option name="appId" value="com.codetaker.ammusic" />
+                </ConnectionSetting>
+              </option>
+              <option name="signal" value="SIGNAL_UNSPECIFIED" />
+              <option name="timeIntervalDays" value="SEVEN_DAYS" />
+              <option name="visibilityType" value="ALL" />
+            </InsightsFilterSettings>
+          </value>
+        </entry>
         <entry key="Firebase Crashlytics">
           <value>
             <InsightsFilterSettings>
               <option name="connection">
                 <ConnectionSetting>
-                  <option name="appId" value="PLACEHOLDER" />
-                  <option name="mobileSdkAppId" value="" />
-                  <option name="projectId" value="" />
-                  <option name="projectNumber" value="" />
+                  <option name="appId" value="amitsarkar2016.forward.sms" />
+                  <option name="mobileSdkAppId" value="1:127509183893:android:db502bc040b1e621a08a9c" />
+                  <option name="projectId" value="multipleapps-5613e" />
+                  <option name="projectNumber" value="127509183893" />
                 </ConnectionSetting>
               </option>
               <option name="signal" value="SIGNAL_UNSPECIFIED" />

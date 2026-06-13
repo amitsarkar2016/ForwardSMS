@@ -2,7 +2,7 @@ package amitsarkar2016.forward.sms.data.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import amitsarkar2016.forward.sms.ui.fragment.SettingType
+import amitsarkar2016.forward.sms.data.model.SettingType
 
 @Entity(tableName = "user_settings")
 data class UserSettings(

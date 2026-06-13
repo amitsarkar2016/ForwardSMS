@@ -1,15 +1,12 @@
 package amitsarkar2016.forward.sms.data.remote
 
 import amitsarkar2016.forward.sms.data.model.BaseResponse
-import amitsarkar2016.forward.sms.data.model.Contact
 import amitsarkar2016.forward.sms.data.model.Login
 import amitsarkar2016.forward.sms.data.model.UpdateDetails
 import retrofit2.Response
-import retrofit2.http.Body
 import retrofit2.http.FieldMap
 import retrofit2.http.FormUrlEncoded
 import retrofit2.http.POST
-import java.util.ArrayList
 
 interface ApiService {
 
@@ -25,7 +22,5 @@ interface ApiService {
     @POST(UrlHelper.UPDATE_AVAILABILITY)
     suspend fun checkUpdateAvailable(@FieldMap hashMap: HashMap<String, String>): Response<BaseResponse<UpdateDetails>>
 
-    @POST(UrlHelper.SYNC_CONTACTS)
-    suspend fun syncContacts(@Body contactsList: ArrayList<Contact>): Response<BaseResponse<Unit>>
 
 }

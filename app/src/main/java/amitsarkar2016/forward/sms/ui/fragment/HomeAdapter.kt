@@ -5,6 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
+import amitsarkar2016.forward.sms.data.model.SettingType
 import amitsarkar2016.forward.sms.data.model.UserSettings
 import amitsarkar2016.forward.sms.databinding.ItemHomeBinding
 import amitsarkar2016.forward.sms.utils.SwipeAdapter

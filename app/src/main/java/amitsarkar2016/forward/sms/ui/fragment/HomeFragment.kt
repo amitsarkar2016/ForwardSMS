@@ -25,6 +25,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.ItemTouchHelper
 import amitsarkar2016.forward.sms.R
+import amitsarkar2016.forward.sms.data.model.SettingType
 import amitsarkar2016.forward.sms.data.model.UpdateDetails
 import amitsarkar2016.forward.sms.data.model.UserSettings
 import amitsarkar2016.forward.sms.databinding.DialogAddRuleBinding
@@ -58,12 +59,11 @@ class HomeFragment : Fragment(R.layout.fragment_home), HomeListCallBack {
         Manifest.permission.RECEIVE_SMS,
         Manifest.permission.SEND_SMS,
         Manifest.permission.READ_PHONE_STATE,
-        Manifest.permission.READ_CONTACTS,
         if (Build.VERSION_CODES.O <= Build.VERSION.SDK_INT) Manifest.permission.READ_PHONE_NUMBERS else null,
         if (Build.VERSION_CODES.TIRAMISU <= Build.VERSION.SDK_INT) Manifest.permission.POST_NOTIFICATIONS else null
     ).toTypedArray()
 
-    private val viewModel: HomeVieModel by viewModels()
+    private val viewModel: HomeViewModel by viewModels()
     private lateinit var homeAdapter: HomeAdapter
 
     override fun onCreateView(
@@ -357,9 +357,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), HomeListCallBack {
                 return@setOnClickListener
             }
             // check service is running or not
-            val isServiceRunning = GeneralFunctions.isServiceRunning(
-                requireContext(), MyForegroundService::class.java
-            )
+            val isServiceRunning = GeneralFunctions.isServiceRunning()
             startStopService(!isServiceRunning)
             if (!isServiceRunning) {
                 binding.startBtn.text = getString(R.string.stop)
@@ -370,9 +368,7 @@ class HomeFragment : Fragment(R.layout.fragment_home), HomeListCallBack {
     }
 
     private fun handleSetup() {
-        val isServiceRunning = GeneralFunctions.isServiceRunning(
-            requireContext(), MyForegroundService::class.java
-        )
+        val isServiceRunning = GeneralFunctions.isServiceRunning()
         if (isServiceRunning) {
             binding.startBtn.text = getString(R.string.stop)
         } else {

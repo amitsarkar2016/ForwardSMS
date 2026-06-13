@@ -27,7 +27,6 @@ class OnBoardingActivity : AppCompatActivity() {
             Manifest.permission.RECEIVE_SMS,
             Manifest.permission.SEND_SMS,
             Manifest.permission.READ_PHONE_STATE,
-            Manifest.permission.READ_CONTACTS,
             if (Build.VERSION_CODES.O <= Build.VERSION.SDK_INT) Manifest.permission.READ_PHONE_NUMBERS else null,
             if (Build.VERSION_CODES.TIRAMISU <= Build.VERSION.SDK_INT) Manifest.permission.POST_NOTIFICATIONS else null
         ).toTypedArray()

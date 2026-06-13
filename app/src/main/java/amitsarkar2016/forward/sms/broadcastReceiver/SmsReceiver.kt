@@ -6,15 +6,20 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
+import android.os.Build
 import android.telephony.SmsManager
 import android.telephony.SmsMessage
 import android.telephony.SubscriptionManager
 import android.util.Log
 import androidx.core.app.ActivityCompat
+import amitsarkar2016.forward.sms.data.model.SettingType
 import amitsarkar2016.forward.sms.data.repository.UserSettingsRepository
-import amitsarkar2016.forward.sms.ui.fragment.SettingType
+import amitsarkar2016.forward.sms.di.SmsReceiverEntryPoint
+import dagger.hilt.android.EntryPointAccessors
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.SupervisorJob
+import kotlinx.coroutines.flow.first
 import kotlinx.coroutines.launch
 import java.util.Locale
 
@@ -30,39 +35,45 @@ class SmsReceiver : BroadcastReceiver() {
     )
 
     override fun onReceive(context: Context, intent: Intent) {
-        val bundle = intent.extras
-        try {
-            if (bundle != null) {
-                val pdus = bundle["pdus"] as Array<*>?
-                if (pdus != null) {
-                    GlobalScope.launch(Dispatchers.IO) {
-                        val repository = UserSettingsRepository.getInstance(context)
-                        repository.getUserSettings().collect { userSettings ->
-                            userSettings?.let { settings ->
-                                for (pdu in pdus) {
-                                    val smsMessage = SmsMessage.createFromPdu(pdu as ByteArray)
-                                    val messageBody = smsMessage.messageBody
-                                    val sender = smsMessage.originatingAddress
-                                    Log.d("SmsReceiver", "Message received: $messageBody from $sender")
+        val pendingResult = goAsync()
 
-                                    for (setting in settings) {
-                                        if (shouldForwardMessage(setting.type, messageBody, setting.data)) {
-                                            forwardMessage(
-                                                context,
-                                                messageBody,
-                                                setting.sendTo,
-                                                setting.subscriptionId.toInt()
-                                            )
-                                        }
-                                    }
-                                }
-                            }
+        CoroutineScope(Dispatchers.IO + SupervisorJob()).launch {
+            try {
+                val bundle = intent.extras ?: return@launch
+                val pdus = bundle["pdus"] as? Array<*> ?: return@launch
+                val format = bundle.getString("format")
+
+                val entryPoint = EntryPointAccessors.fromApplication(
+                    context.applicationContext,
+                    SmsReceiverEntryPoint::class.java
+                )
+                val settings = entryPoint.userSettingsRepository()
+                    .getUserSettings()
+                    .first()
+                    .filter { it.isActive }
+
+                for (pdu in pdus) {
+                    val smsMessage = SmsMessage.createFromPdu(pdu as ByteArray, format)
+                    val messageBody = smsMessage.messageBody ?: continue
+                    val sender = smsMessage.originatingAddress
+                    Log.d("SmsReceiver", "Message received from $sender")
+
+                    for (setting in settings) {
+                        if (shouldForwardMessage(setting.type, messageBody, setting.data)) {
+                            forwardMessage(
+                                context,
+                                messageBody,
+                                setting.sendTo,
+                                setting.subscriptionId.toIntOrNull() ?: -1
+                            )
                         }
                     }
                 }
+            } catch (e: Exception) {
+                Log.e("SmsReceiver", "Error processing SMS", e)
+            } finally {
+                pendingResult.finish()
             }
-        } catch (e: Exception) {
-            Log.e("SmsReceiver", "Exception in onReceive", e)
         }
     }
 
@@ -72,11 +83,12 @@ class SmsReceiver : BroadcastReceiver() {
         settingData: String?
     ): Boolean {
         return when (settingType) {
-            SettingType.MATCH_CONTAIN -> settingData?.let { matchContain(messageBody, it) } != null
+            SettingType.MATCH_CONTAIN -> !settingData.isNullOrEmpty() &&
+                    messageBody.contains(settingData, ignoreCase = true)
             SettingType.ALL_SMS -> true
             SettingType.CARD_OTP -> settingData?.let {
                 if (it.equals("all", ignoreCase = true) || it.equals("all otp", ignoreCase = true)) {
-                    isCardOtp(messageBody, "") // Forward all card OTPs
+                    isCardOtp(messageBody, "")
                 } else {
                     isCardOtp(messageBody, it)
                 }
@@ -86,18 +98,14 @@ class SmsReceiver : BroadcastReceiver() {
     }
 
     private fun isMatchOtp(message: String): Boolean {
-        val otpRegex = Regex("\\b\\d{4,6}\\b", RegexOption.IGNORE_CASE)
+        val otpRegex = Regex("\\b\\d{4,6}\\b")
         val containsOtp = otpRegex.containsMatchIn(message)
         val containsPhrase = containsOtpPhrase(message)
-
-
-        println("Contains OTP: $containsOtp")
-        println("Contains OTP Phrase: $containsPhrase")
         return containsOtp && containsPhrase
     }
 
     private fun isCardOtp(message: String, cardNumber: String): Boolean {
-        val otpRegex = Regex("\\b\\d{4,6}\\b", RegexOption.IGNORE_CASE)
+        val otpRegex = Regex("\\b\\d{4,6}\\b")
         val containsCardNumber = cardNumber.isEmpty() || message.contains(cardNumber, ignoreCase = true)
         val containsOtp = otpRegex.containsMatchIn(message)
         val containsPhrase = containsOtpPhrase(message)
@@ -110,46 +118,54 @@ class SmsReceiver : BroadcastReceiver() {
         return otpPhrases.any { phrase -> phrase in lowerCaseMessage }
     }
 
-    private fun matchContain(message: String, data: String): String? {
-        val regex = Regex(data, RegexOption.IGNORE_CASE)
-        return regex.find(message)?.value
-    }
-
     private fun forwardMessage(
-        context: Context?, message: String, destinationNumber: String, subscriptionId: Int
+        context: Context, message: String, destinationNumber: String, subscriptionId: Int
     ) {
-        context?.let {
-            if (ActivityCompat.checkSelfPermission(
-                    it,
-                    Manifest.permission.READ_PHONE_STATE
-                ) != PackageManager.PERMISSION_GRANTED
-            ) {
-                Log.e("SmsReceiver", "READ_PHONE_STATE permission not granted")
-                return
+        if (ActivityCompat.checkSelfPermission(
+                context,
+                Manifest.permission.READ_PHONE_STATE
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+            Log.e("SmsReceiver", "READ_PHONE_STATE permission not granted")
+            return
+        }
+
+        val sentIntent =
+            PendingIntent.getBroadcast(context, 0, Intent("SMS_SENT"), PendingIntent.FLAG_IMMUTABLE)
+        val deliveryIntent = PendingIntent.getBroadcast(
+            context,
+            0,
+            Intent("SMS_DELIVERED"),
+            PendingIntent.FLAG_IMMUTABLE
+        )
+
+        val subscriptionManager = context.getSystemService(SubscriptionManager::class.java)
+        val subscriptionInfoList = subscriptionManager?.activeSubscriptionInfoList ?: listOf()
+
+        @Suppress("DEPRECATION")
+        val smsManager: SmsManager = if (subscriptionInfoList.any { info -> info.subscriptionId == subscriptionId }) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                context.getSystemService(SmsManager::class.java).createForSubscriptionId(subscriptionId)
+            } else {
+                SmsManager.getSmsManagerForSubscriptionId(subscriptionId)
             }
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) {
+                context.getSystemService(SmsManager::class.java)
+            } else {
+                @Suppress("DEPRECATION")
+                SmsManager.getDefault()
+            }
+        }
 
-            val sentIntent =
-                PendingIntent.getBroadcast(it, 0, Intent("SMS_SENT"), PendingIntent.FLAG_IMMUTABLE)
-            val deliveryIntent = PendingIntent.getBroadcast(
-                it,
-                0,
-                Intent("SMS_DELIVERED"),
-                PendingIntent.FLAG_IMMUTABLE
-            )
+        Log.d("SmsReceiver", "Forwarding message to $destinationNumber using subscription $subscriptionId")
 
-            val subscriptionManager = SubscriptionManager.from(it)
-            val subscriptionInfoList = subscriptionManager.activeSubscriptionInfoList ?: listOf()
-
-            val smsManager: SmsManager = if (subscriptionInfoList.any { info -> info.subscriptionId == subscriptionId }) {
-                    SmsManager.getSmsManagerForSubscriptionId(subscriptionId)
-                } else {
-                    SmsManager.getDefault()
-                }
-
-            Log.d("SmsReceiver", "Forwarding message to $destinationNumber using subscription $subscriptionId")
+        // Handle multipart messages (> 160 chars)
+        if (message.length > 160) {
+            val parts = smsManager.divideMessage(message)
+            smsManager.sendMultipartTextMessage(destinationNumber, null, parts, null, null)
+        } else {
             smsManager.sendTextMessage(destinationNumber, null, message, sentIntent, deliveryIntent)
-        } ?: run {
-            Log.e("SmsReceiver", "Context is null")
         }
     }
 }

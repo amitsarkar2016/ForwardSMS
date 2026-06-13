@@ -4,7 +4,6 @@ import android.app.AlertDialog
 import android.content.Context
 import android.view.LayoutInflater
 import amitsarkar2016.forward.sms.databinding.DialogDeleteConfirmationBinding
-import amitsarkar2016.forward.sms.services.MyForegroundService
 
 object GeneralFunctions {
 
@@ -34,13 +33,12 @@ object GeneralFunctions {
         dialog.show()
     }
 
-    fun isServiceRunning(requireContext: Context, java: Class<MyForegroundService>): Boolean {
-        val manager = requireContext.getSystemService(Context.ACTIVITY_SERVICE) as android.app.ActivityManager
-        for (service in manager.getRunningServices(Int.MAX_VALUE)) {
-            if (java.name == service.service.className) {
-                return true
-            }
-        }
-        return false
+    /**
+     * Check if the foreground service is running.
+     * Uses a static flag set by MyForegroundService instead of the deprecated
+     * ActivityManager.getRunningServices() API.
+     */
+    fun isServiceRunning(): Boolean {
+        return amitsarkar2016.forward.sms.services.MyForegroundService.isRunning
     }
 }

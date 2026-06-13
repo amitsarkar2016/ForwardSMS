@@ -6,15 +6,15 @@ import java.util.Locale
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
-
     alias(libs.plugins.kotlinAndroidKsp)
     alias(libs.plugins.hiltAndroid)
-//    id("kotlin-kapt")
+    id("com.google.gms.google-services")
 }
 
 android {
     namespace = "amitsarkar2016.forward.sms"
     compileSdk = 34
+
 
     defaultConfig {
         applicationId = "amitsarkar2016.forward.sms"
@@ -46,8 +46,8 @@ android {
     buildTypes {
         release {
             signingConfig = signingConfigs.getByName("release")
-            isMinifyEnabled = false
-            isShrinkResources = false
+            isMinifyEnabled = true
+            isShrinkResources = true
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
@@ -58,18 +58,18 @@ android {
             android.applicationVariants.all {
                 outputs.all {
                     val date = Date()
-                    val formattedDate = SimpleDateFormat("ddmmyyyy-HHmmss", Locale.getDefault()).format(date)
+                    val formattedDate = SimpleDateFormat("ddMMyyyy-HHmmss", Locale.getDefault()).format(date)
                     (this as BaseVariantOutputImpl).outputFileName = "$applicationId $formattedDate.apk"
                 }
             }
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_1_8
-        targetCompatibility = JavaVersion.VERSION_1_8
+        sourceCompatibility = JavaVersion.VERSION_11
+        targetCompatibility = JavaVersion.VERSION_11
     }
     kotlinOptions {
-        jvmTarget = "1.8"
+        jvmTarget = "11"
     }
     buildFeatures {
         viewBinding = true
@@ -126,10 +126,9 @@ dependencies {
     // Worker
     implementation(libs.androidx.work.runtime.ktx)
 
-    // Firebase
-    implementation(platform("com.google.firebase:firebase-bom:34.1.0"))
-    implementation("com.google.firebase:firebase-messaging-ktx:24.1.2")
-    implementation("com.google.firebase:firebase-messaging:25.0.0")
+    // Firebase (versions managed by BOM)
+    implementation(platform("com.google.firebase:firebase-bom:34.11.0"))
+    implementation("com.google.firebase:firebase-messaging")
 
 
 }

@@ -17,6 +17,10 @@ class MyForegroundService : Service() {
         const val MY_CHANNEL_ID = "MY_CHANNEL_ID"
         const val MY_CHANNEL_NAME = "OTP Forward"
         const val RESTART_SERVICE_ACTION = "amitsarkar2016.forward.sms.action.RESTART_SERVICE"
+
+        @Volatile
+        var isRunning = false
+            private set
     }
 
     override fun onBind(intent: Intent?): IBinder? {
@@ -24,6 +28,8 @@ class MyForegroundService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        isRunning = true
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             // Create Notification Channel
             val channel = NotificationChannel(
@@ -74,5 +80,10 @@ class MyForegroundService : Service() {
         }
 
         return START_STICKY
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        isRunning = false
     }
 }
